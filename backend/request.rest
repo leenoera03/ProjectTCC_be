@@ -1,0 +1,25 @@
+GET http://localhost:5000/notes
+
+###
+GET http://localhost:5000/notes/1
+
+###
+POST http://localhost:5000/add-note
+Content-Type: application/json
+
+{
+    "nama": "John Doe",
+    "catatan": "john@gmail.com"
+}
+
+###
+PATCH http://localhost:5000/notes/1
+Content-Type: application/json
+
+{
+    "nama": "M Fikri",
+    "catatan": "mfikri@gmail.com"
+}
+
+###
+DELETE http://localhost:5000/notes/2
