@@ -1,7 +1,4 @@
-FROM node:18-alpine
-WORKDIR /frontend/
-COPY public/ /frontend/public
-COPY src/ /frontend/src
-COPY package.json /frontend/
-RUN npm install
-CMD ["npm", "start"]
+FROM nginx:alpine
+COPY . /usr/share/nginx/html
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]
