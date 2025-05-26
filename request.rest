@@ -1,0 +1,85 @@
+###
+GET http://localhost:5000/users
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjksImVtYWlsIjoieWF5YUBnbWFpbC5jb20iLCJyb2xlIjoidXNlciIsImlhdCI6MTc0ODE1NTM4NywiZXhwIjoxNzQ4MjQxNzg3fQ.t5MCqVQCT_IQfMDhrtoazB_0lERLIaeAOT6h3MTICtA
+
+###
+POST http://localhost:5000/users
+Content-Type: application/json
+
+{
+    "username": "yaya",
+    "email": "yaya@gmail.com",
+    "no_hp": "08123456789",
+    "password": "123",
+    "confPassword": "123"
+}
+
+###
+POST http://localhost:5000/login
+Content-Type: application/json
+
+{
+    "email": "admin@pameran.com",
+    "password": "123"
+}
+
+###
+GET http://localhost:5000/token
+
+###
+DELETE http://localhost:5000/logout
+
+### Ambil semua lukisan (GET)
+GET http://localhost:5000/lukisan
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsImVtYWlsIjoiYWRtaW5AcGFtZXJhbi5jb20iLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3NDgyNzUwOTMsImV4cCI6MTc0ODM2MTQ5M30.ejkhBYThHSVUJywDJIS_NJJyV4TEogp2Gk7KKi6CEqU
+### Tambah lukisan (POST, hanya admin)
+POST http://localhost:5000/lukisan
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsImVtYWlsIjoiYWRtaW5AcGFtZXJhbi5jb20iLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3NDgyNzUwOTMsImV4cCI6MTc0ODM2MTQ5M30.ejkhBYThHSVUJywDJIS_NJJyV4TEogp2Gk7KKi6CEqU
+
+{
+    "judul": "Lukisan Senja",
+    "deskripsi": "Lukisan suasana senja di pantai.",
+    "seniman": "pak prabowo",
+    "tahun": 2023,
+    "gambar": "senja.jpg"
+}
+
+### Edit/Update lukisan (PUT, hanya admin)
+PUT  http://localhost:5000/lukisan/1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsImVtYWlsIjoiYWRtaW5AcGFtZXJhbi5jb20iLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3NDgyNjExNzEsImV4cCI6MTc0ODM0NzU3MX0.Gh1d0vOdn5gujjFrO96q9PS7AMq5f58m3fX8FVJ-VSY
+
+{
+   "judul": "Lukisan Senja",
+    "deskripsi": "Lukisan suasana senja di pantai.",
+    "seniman": "pak jokowi",
+    "tahun": 2023,
+    "gambar": "senja.jpg"
+}
+
+### Hapus lukisan (DELETE, hanya admin)
+DELETE http://localhost:5000/lukisan/1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsImVtYWlsIjoiYWRtaW5AcGFtZXJhbi5jb20iLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3NDgwOTkwNjMsImV4cCI6MTc0ODE4NTQ2M30.Iz9B7zN5CM3G2mxk29C5EXCmW5fVyR3OSjnNHL4ayOI
+
+### Tambah komentar (hanya user)
+POST http://localhost:5000/komentar
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjksImVtYWlsIjoieWF5YUBnbWFpbC5jb20iLCJyb2xlIjoidXNlciIsImlhdCI6MTc0ODEwMDE5NiwiZXhwIjoxNzQ4MTg2NTk2fQ.JIhI5xvb2JtxB5cOHtb0Gna-tGJloHPo92SH7CzWuBg
+Content-Type: application/json
+
+{
+    "isi": "Keren banget lukisannya!",
+    "lukisanId": 4
+}
+
+### Edit komentar (hanya user & milik sendiri)
+PUT http://localhost:5000/komentar/1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjksImVtYWlsIjoieWF5YUBnbWFpbC5jb20iLCJyb2xlIjoidXNlciIsImlhdCI6MTc0ODEwMDE5NiwiZXhwIjoxNzQ4MTg2NTk2fQ.JIhI5xvb2JtxB5cOHtb0Gna-tGJloHPo92SH7CzWuBg
+Content-Type: application/json
+
+{
+    "isi": "Saya suka sekali karya ini!"
+}
+
+### Hapus komentar (hanya user & milik sendiri)
+DELETE http://localhost:5000/komentar/1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjksImVtYWlsIjoieWF5YUBnbWFpbC5jb20iLCJyb2xlIjoidXNlciIsImlhdCI6MTc0ODEwMDE5NiwiZXhwIjoxNzQ4MTg2NTk2fQ.JIhI5xvb2JtxB5cOHtb0Gna-tGJloHPo92SH7CzWuBg
+
