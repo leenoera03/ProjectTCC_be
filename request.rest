@@ -1,3 +1,5 @@
+GET https://tcc-be-836058602525.us-central1.run.app/users
+
 ###
 GET http://localhost:5000/users
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjksImVtYWlsIjoieWF5YUBnbWFpbC5jb20iLCJyb2xlIjoidXNlciIsImlhdCI6MTc0ODE1NTM4NywiZXhwIjoxNzQ4MjQxNzg3fQ.t5MCqVQCT_IQfMDhrtoazB_0lERLIaeAOT6h3MTICtA
