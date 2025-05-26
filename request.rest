@@ -32,9 +32,11 @@ DELETE http://localhost:5000/logout
 ### Ambil semua lukisan (GET)
 GET http://localhost:5000/lukisan
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsImVtYWlsIjoiYWRtaW5AcGFtZXJhbi5jb20iLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3NDgyNzUwOTMsImV4cCI6MTc0ODM2MTQ5M30.ejkhBYThHSVUJywDJIS_NJJyV4TEogp2Gk7KKi6CEqU
+
 ### Tambah lukisan (POST, hanya admin)
 POST http://localhost:5000/lukisan
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsImVtYWlsIjoiYWRtaW5AcGFtZXJhbi5jb20iLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3NDgyNzUwOTMsImV4cCI6MTc0ODM2MTQ5M30.ejkhBYThHSVUJywDJIS_NJJyV4TEogp2Gk7KKi6CEqU
+Content-Type: application/json
 
 {
     "judul": "Lukisan Senja",
