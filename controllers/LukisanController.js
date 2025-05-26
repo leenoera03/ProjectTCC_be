@@ -14,12 +14,18 @@ export const getAllLukisan = async (req, res) => {
 export const createLukisan = async (req, res) => {
     try {
         const { judul, deskripsi, gambar } = req.body;
+        
+        if (!judul || judul.trim() === "") {
+          return res.status(400).json({ msg: "Judul wajib diisi" });
+        }
+        
         await Lukisan.create({ judul, deskripsi, gambar });
         res.status(201).json({ msg: "Lukisan berhasil ditambah" });
     } catch (error) {
         res.status(400).json({ msg: error.message });
     }
 };
+
 
 // Hapus lukisan (admin only)
 export const deleteLukisan = async (req, res) => {
