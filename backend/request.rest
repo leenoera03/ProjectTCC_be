@@ -31,15 +31,16 @@ DELETE http://localhost:5000/logout
 
 ### Ambil semua lukisan (GET)
 GET http://localhost:5000/lukisan
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsImVtYWlsIjoiYWRtaW5AcGFtZXJhbi5jb20iLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3NDgyNjExNzEsImV4cCI6MTc0ODM0NzU3MX0.Gh1d0vOdn5gujjFrO96q9PS7AMq5f58m3fX8FVJ-VSY
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsImVtYWlsIjoiYWRtaW5AcGFtZXJhbi5jb20iLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3NDgyNzUwOTMsImV4cCI6MTc0ODM2MTQ5M30.ejkhBYThHSVUJywDJIS_NJJyV4TEogp2Gk7KKi6CEqU
 ### Tambah lukisan (POST, hanya admin)
 POST http://localhost:5000/lukisan
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsImVtYWlsIjoiYWRtaW5AcGFtZXJhbi5jb20iLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3NDgyNjExNzEsImV4cCI6MTc0ODM0NzU3MX0.Gh1d0vOdn5gujjFrO96q9PS7AMq5f58m3fX8FVJ-VSY
-Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsImVtYWlsIjoiYWRtaW5AcGFtZXJhbi5jb20iLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3NDgyNzUwOTMsImV4cCI6MTc0ODM2MTQ5M30.ejkhBYThHSVUJywDJIS_NJJyV4TEogp2Gk7KKi6CEqU
 
 {
     "judul": "Lukisan Senja",
     "deskripsi": "Lukisan suasana senja di pantai.",
+    "seniman": "pak prabowo",
+    "tahun": 2023,
     "gambar": "senja.jpg"
 }
 
@@ -48,9 +49,11 @@ PUT  http://localhost:5000/lukisan/1
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsImVtYWlsIjoiYWRtaW5AcGFtZXJhbi5jb20iLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3NDgyNjExNzEsImV4cCI6MTc0ODM0NzU3MX0.Gh1d0vOdn5gujjFrO96q9PS7AMq5f58m3fX8FVJ-VSY
 
 {
-    "judul": "Lukisan Senja Update",
-    "deskripsi": "Lukisan suasana senja di pantai yang sudah diupdate.",
-    "gambar": "senja_update.jpg"
+   "judul": "Lukisan Senja",
+    "deskripsi": "Lukisan suasana senja di pantai.",
+    "seniman": "pak jokowi",
+    "tahun": 2023,
+    "gambar": "senja.jpg"
 }
 
 ### Hapus lukisan (DELETE, hanya admin)
