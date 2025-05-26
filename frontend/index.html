@@ -506,112 +506,48 @@
       color: #555;
     }
 
-    /* Position logout button */
- 
-    .logo {
-      display: flex;
-      align-items: center;
-      font-size: 24px;
-      font-weight: 700;
+    /* Edit and Delete buttons */
+    button {
+      background: rgba(255, 255, 255, 0.8);
+      backdrop-filter: blur(8px);
+      border: none;
+      padding: 8px 15px;
+      border-radius: 12px;
+      font-size: 14px;
+      font-weight: 500;
+      color: #667eea;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin-right: 10px;
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+    }
+
+    /* Edit button style */
+    button:nth-child(1) {
+      background: rgba(102, 126, 234, 0.1);
       color: #667eea;
     }
 
-    .logo::before {
-      content: '🎨';
-      margin-right: 10px;
-      font-size: 28px;
-    }
-
-    .user-menu {
-      display: flex;
-      align-items: center;
-      gap: 20px;
-    }
-
-    .user-info {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 8px 16px;
-      background: rgba(102, 126, 234, 0.1);
-      border-radius: 25px;
-      font-size: 14px;
-      font-weight: 500;
-    }
-
-    .user-avatar {
-      width: 35px;
-      height: 35px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, #667eea, #764ba2);
-      display: flex;
-      align-items: center;
-      justify-content: center;
+    button:nth-child(1):hover {
+      background: #667eea;
       color: white;
-      font-weight: 600;
     }
 
- 
-
-    /* Responsive */
-    @media (max-width: 768px) {
-      .hero-section h1 {
-        font-size: 36px;
-      }
-      
-      .search-section {
-        flex-direction: column;
-        gap: 15px;
-      }
-      
-      .gallery, #listLukisan {
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-        gap: 20px;
-      }
-
-      .modal-content {
-        margin: 10px;
-      }
-
-      .modal-content img, #modal-img {
-        height: 200px;
-      }
-
-      .modal-content h2, #modal-title {
-        font-size: 24px;
-        margin: 15px 20px 10px;
-      }
-
-      .modal-content p, #modal-description, #komentarSection {
-        margin-left: 20px;
-        margin-right: 20px;
-      }
+    /* Delete button style */
+    button:nth-child(2) {
+      background: rgba(255, 107, 107, 0.1);
+      color: #ff6b6b;
     }
 
-    @media (max-width: 480px) {
-      .hero-section h1 {
-        font-size: 28px;
-      }
-      
-      .gallery, #listLukisan {
-        grid-template-columns: 1fr;
-        gap: 15px;
-      }
-
-      .gallery-item img {
-        height: 200px;
-      }
-
-      .modal-content img, #modal-img {
-        height: 150px;
-      }
-      .user-menu {
-      display: flex;
-      align-items: center;
-      gap: 30px; /* ← tambahkan ini agar tombol logout tidak terlalu dekat */
+    button:nth-child(2):hover {
+      background: #ff6b6b;
+      color: white;
     }
 
-    }
   </style>
 </head>
 
@@ -718,7 +654,6 @@
         console.error("Token parsing error", e);
       }
 
-
       fetchLukisan();
     }
 
@@ -770,9 +705,7 @@
         const id = lukisan.id;
 
         div.innerHTML = `
-          <div class="like-icon" onclick="event.stopPropagation(); toggleLike(this)">
-            <i class="fa-regular fa-heart"></i>
-          </div>
+          <div class="like-icon" onclick="event.stopPropagation(); toggleLike(this)"><i class="fa-regular fa-heart"></i></div>
           <img src="${imageUrl}" alt="${title}" onerror="this.src='https://via.placeholder.com/300x250?text=Image+Not+Found'" />
           <div class="caption">${title} – ${artist}</div>
         `;
@@ -857,10 +790,83 @@
           <div class="comment-author">${comment.username || 'email'}</div>
           <div class="comment-text">${comment.isi || comment.content}</div>
           <div class="comment-date">${date}</div>
+          <button onclick="editComment(${comment.id})">Edit</button>
+          <button onclick="deleteComment(${comment.id})">Delete</button>
         `;
         
         container.appendChild(commentDiv);
       });
+    }
+
+    // Edit comment
+    function editComment(commentId) {
+      const newComment = prompt("Edit your comment:");
+
+      if (newComment && newComment.trim()) {
+        updateComment(commentId, newComment.trim());
+      }
+    }
+
+    // Update comment
+    async function updateComment(commentId, newComment) {
+      try {
+        const response = await fetch(`${API_URL}/komentar/${commentId}`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`,
+          },
+          body: JSON.stringify({ isi: newComment }),
+        });
+
+        if (response.status === 401) {
+          alert("⚠️ Sesi login habis. Silakan login ulang.");
+          localStorage.removeItem("token");
+          window.location.href = "login.html";
+          return;
+        }
+
+        if (!response.ok) {
+          const errorData = await response.json();
+          alert(`⚠️ Error: ${errorData.message}`);
+          return;
+        }
+
+        alert("✅ Komentar berhasil diperbarui!");
+        loadComments(); // Reload comments
+      } catch (err) {
+        console.error("Gagal memperbarui komentar:", err);
+      }
+    }
+
+    // Delete comment
+    async function deleteComment(commentId) {
+      if (confirm("Apakah Anda yakin ingin menghapus komentar ini?")) {
+        try {
+          const response = await fetch(`${API_URL}/komentar/${commentId}`, {
+            method: "DELETE",
+            headers: { Authorization: `Bearer ${token}` },
+          });
+
+          if (response.status === 401) {
+            alert("⚠️ Sesi login habis. Silakan login ulang.");
+            localStorage.removeItem("token");
+            window.location.href = "login.html";
+            return;
+          }
+
+          if (!response.ok) {
+            const errorData = await response.json();
+            alert(`⚠️ Error: ${errorData.message}`);
+            return;
+          }
+
+          alert("✅ Komentar berhasil dihapus!");
+          loadComments(); // Reload comments
+        } catch (err) {
+          console.error("Gagal menghapus komentar:", err);
+        }
+      }
     }
 
     // Add comment - PERBAIKAN: pastikan semua data terisi
@@ -1006,8 +1012,8 @@
         closeModal();
       }
     });
-// Tutup modal saat klik tombol close (×)
-document.querySelector(".close-btn").addEventListener("click", closeModal);
+    // Tutup modal saat klik tombol close (×)
+    document.querySelector(".close-btn").addEventListener("click", closeModal);
 
     initApp();
   </script>
