@@ -12,9 +12,31 @@ import CommentRoute from "./routes/CommentRoute.js";
 dotenv.config();
 const app = express();
 
-app.use(cors({credentials: true, origin: 'https://d-04-450714.uc.r.appspot.com'}));
+// CORS configuration dengan multiple origins
+app.use(cors({
+  credentials: true, 
+  origin: [
+    'https://d-04-450714.uc.r.appspot.com',
+    'http://localhost:3000',
+    'http://localhost:5000'
+  ],
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'Cookie']
+}));
+
 app.use(cookieParser());
 app.use(express.json());
+
+// Health check endpoint (penting untuk Cloud Run)
+app.get('/', (req, res) => {
+  res.json({ message: 'Backend API is running', status: 'OK' });
+});
+
+app.get('/health', (req, res) => {
+  res.json({ status: 'healthy' });
+});
+
+// Routes
 app.use(UserRoute);
 app.use(LukisanRoute);
 app.use(CommentRoute);
@@ -23,7 +45,6 @@ app.use(CommentRoute);
 db.sync()
   .then(async () => {
     console.log("Database & tabel sudah sinkron!");
-
     // Cek apakah admin sudah ada
     const admin = await Users.findOne({ where: { email: "admin@pameran.com" } });
     if (!admin) {
@@ -33,8 +54,13 @@ db.sync()
         password: hashPassword,
         role: "admin"
       });
+      console.log("Admin user created");
     }
   })
   .catch((err) => console.error("Gagal sinkronisasi database:", err));
 
-app.listen(5000, () => console.log("Server running on port 5000"));
+// Gunakan PORT dari environment variable (Cloud Run)
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`Server running on port ${PORT}`);
+});
